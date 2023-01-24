@@ -84,8 +84,6 @@ let board = [
 class ChessPiece {
     constructor(name, toggled, alive, piece, position) {
         this.name = name;
-        this.toggled = toggled;
-        this.alive = alive;
         this.piece = piece;
         this.position = position;
     }

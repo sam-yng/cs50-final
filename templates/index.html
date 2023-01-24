@@ -4,19 +4,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chess but better</title>
+    <title>Cheese</title>
     <link href="/static/chess.css" rel="stylesheet">
 </head>
 
 <body>
     <div class="container">
         <form action="/" method="post" class="input">
-            <div>
-                {% for color in color %}
-                <input name="color" type="radio" value="{{ color }}"> {{ color }}
-                {% endfor %}
-            </div>
-            <input class="name" autocomplete="off" autofocus name="name" placeholder="Name" type="text">
+            <input class="name" autocomplete="off" autofocus name="player1" placeholder="Player 1" type="text">
+        
+            <input class="name" autocomplete="off" autofocus name="player2" placeholder="Player 2" type="text">
+            
             <button class="sub" type="submit">Play</button>
         </form>
     </div>

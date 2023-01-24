@@ -12,16 +12,16 @@ COLORS = [
 def index():
 
     if request.method == "POST":
-        name = request.form.get("name")
-        color = request.form.get("color")
+        player1 = request.form.get("player1")
+        player2 = request.form.get("player2")
 
-        if not color:
-            return render_template("index.html", color=COLORS)
+        if not player1:
+            return render_template("index.html")
 
-        if not name:
-            return render_template("index.html", color=COLORS)
+        if not player2:
+            return render_template("index.html")
 
-        return render_template("chess.html", name=name, color=color)
+        return render_template("chess.html", palyer1=player1, player2=player2)
 
     else:
-        return render_template("index.html", color=COLORS)
+        return render_template("chess.html")

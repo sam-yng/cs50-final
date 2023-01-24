@@ -1,0 +1,103 @@
+form {
+    margin: 0 auto;
+    width: 200px;
+    margin-top: auto;
+}
+
+table {
+    margin: 0 auto;
+}
+
+body,
+html {
+    height: 70vh;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 45vh;
+}
+
+.input {
+    display: flex;
+    flex-direction: column;
+    width: 10%;
+}
+
+.name {
+    text-align: center;
+    margin-bottom: 10px;
+    width: 55%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+}
+
+.sub {
+    max-width: 60px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.board {
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+
+.board th {
+    padding: 2em;
+}
+
+.board td {
+    border: 1px solid;
+    width: 3em;
+    height: 3em;
+    text-align: center;
+    width: 1.5em;
+    height: 1.5em;
+    font-size: 45px;
+}
+
+.board .white {
+    background: #eee;
+}
+
+.board .black {
+    background: rgb(117, 117, 117);
+}
+
+td:hover {
+    cursor: pointer;
+}
+
+.move {
+    display: flex;
+    flex-direction: column;
+}
+
+.time {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-bottom: 1vh;
+}
+
+.rsst {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 6vh;
+}
+
+.toggled {
+    color: orange;
+}
+
+.board .move {
+    color: orange;
+}
+
+.board .move2 {
+    color: orange;
+}

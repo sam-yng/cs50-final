@@ -1,0 +1,12 @@
+{
+  "name": "cs50-final",
+  "version": "1.0.0",
+  "main": "chess.js",
+  "repository": "git@github.com:sam-yng/cs50-final.git",
+  "author": "sam-yng <young142001@hotmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "import": "^0.0.6",
+    "modules": "^0.4.0"
+  }
+}

@@ -179,8 +179,10 @@ const color = turn == 'white' ? whitePieces : blackPieces;
 const toggle = () => {
     color.forEach(item => {
         item.addEventListener('click', event => {
-            unToggle();
+            unToggle()
+            removeMove()
             item.classList.add('toggled')
+            move()
         })
     })
 };
@@ -192,3 +194,21 @@ const unToggle = () => {
 };
 
 setInterval(toggle, 1100)
+
+const move = () => {
+    color.forEach(item => {
+        if (item.classList.contains('toggled')) {
+            let poz = parseInt(item.id);
+            poz += 10;
+            let newPoz = poz.toString()
+            let block = document.getElementById(newPoz)
+            block.classList.add('move')
+        }
+    })
+};
+
+const removeMove = () => {
+    document.querySelectorAll('.move').forEach(item => {
+        item.classList.remove('move');
+    })
+}

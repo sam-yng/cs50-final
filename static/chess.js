@@ -1,12 +1,13 @@
-let turn = 'White';
+let turn = 'white';
 let showTurn = document.getElementById('show-turn');
+showTurn.innerHTML = 'Turn: white'
 
 const turnChange = () => {
-    if (turn == 'White') {
-        turn = 'Black';
+    if (turn == 'white') {
+        turn = 'black';
         showTurn.innerHTML = 'Turn: black'
     } else {
-        turn = 'White';
+        turn = 'white';
         showTurn.innerHTML = 'Turn: white'
     }
 };
@@ -149,3 +150,45 @@ for (i = 0; i < 32; i++) {
     pieces[i].populateBoard(pieces[i])
 }
 
+let squares = [];
+
+for (i = 0; i <= 63; i++) {
+    squares.push(document.getElementById(chessBoard[i]));
+}
+
+for (i = 63; i >= 32; i--) {
+    if (squares[i].innerHTML) {
+        squares[i].classList.add('whitePiece');
+    } else {
+        squares[i].classList.remove('whitePiece')
+    }
+};
+
+for (i = 0; i <= 32; i++) {
+    if (squares[i].innerHTML) {
+        squares[i].classList.add('blackPiece');
+    } else {
+        squares[i].classList.remove('blackPiece')
+    }
+};
+
+let whitePieces = document.querySelectorAll('.whitePiece')
+let blackPieces = document.querySelectorAll('.blackPiece')
+const color = turn == 'white' ? whitePieces : blackPieces;
+
+const toggle = () => {
+    color.forEach(item => {
+        item.addEventListener('click', event => {
+            unToggle();
+            item.classList.add('toggled')
+        })
+    })
+};
+
+const unToggle = () => {
+    document.querySelectorAll('.toggled').forEach(item => {
+        item.classList.remove('toggled');
+    })
+};
+
+setInterval(toggle, 1100)

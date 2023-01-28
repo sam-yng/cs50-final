@@ -1,12 +1,13 @@
 let turn = 'white';
+// let turn = 'black';
 let showTurn = document.getElementById('show-turn');
 showTurn.innerHTML = 'Turn: white'
 
 const turnChange = () => {
     if (turn == 'white') {
-        turn = 'black';
         showTurn.innerHTML = 'Turn: black'
-    } else {
+        turn = 'black';
+    } else if (turn == 'black') {
         turn = 'white';
         showTurn.innerHTML = 'Turn: white'
     }
@@ -156,35 +157,57 @@ for (i = 0; i <= 63; i++) {
     squares.push(document.getElementById(chessBoard[i]));
 }
 
-for (i = 63; i >= 32; i--) {
-    if (squares[i].innerHTML) {
-        squares[i].classList.add('whitePiece');
-    } else {
-        squares[i].classList.remove('whitePiece')
+const wCheck = () => {
+    for (i = 63; i >= 32; i--) {
+        if (squares[i].innerHTML) {
+            squares[i].classList.add('whitePiece');
+        } else {
+            squares[i].classList.remove('whitePiece')
+        }
     }
 };
 
-for (i = 0; i <= 32; i++) {
-    if (squares[i].innerHTML) {
-        squares[i].classList.add('blackPiece');
-    } else {
-        squares[i].classList.remove('blackPiece')
+const bCheck = () => {
+    for (i = 0; i <= 32; i++) {
+        if (squares[i].innerHTML) {
+            squares[i].classList.add('blackPiece');
+        } else {
+            squares[i].classList.remove('blackPiece')
+        }
     }
 };
+
+wCheck();
+bCheck();
 
 let whitePieces = document.querySelectorAll('.whitePiece')
 let blackPieces = document.querySelectorAll('.blackPiece')
 const color = turn == 'white' ? whitePieces : blackPieces;
 
 const toggle = () => {
-    color.forEach(item => {
-        item.addEventListener('click', event => {
-            unToggle()
-            removeMove()
-            item.classList.add('toggled')
-            move()
+    if (turn == 'white') {
+        document.querySelectorAll('.whitePiece').forEach(item => {
+            item.addEventListener('click', event => {
+                unToggle()
+                removeMove()
+                item.classList.add('toggled')
+                toggleMove()
+                allowMove()
+                item.removeEventListener('click', event)
+            })
         })
-    })
+    } else if (turn == 'black') {
+        document.querySelectorAll('.blackPiece').forEach(item => {
+            item.addEventListener('click', event => {
+                unToggle()
+                removeMove()
+                item.classList.add('toggled')
+                toggleMove()
+                allowMove()
+                item.removeEventListener('click', event)
+            })
+        })
+    }
 };
 
 const unToggle = () => {
@@ -195,16 +218,28 @@ const unToggle = () => {
 
 setInterval(toggle, 1100)
 
-const move = () => {
-    color.forEach(item => {
-        if (item.classList.contains('toggled')) {
-            let poz = parseInt(item.id);
-            poz += 10;
-            let newPoz = poz.toString()
-            let block = document.getElementById(newPoz)
-            block.classList.add('move')
-        }
-    })
+const toggleMove = () => {
+    if (turn == 'white') {
+        document.querySelectorAll('.whitePiece').forEach(item => {
+            if (item.classList.contains('toggled')) {
+                let poz = parseInt(item.id);
+                poz += 10;
+                let newPoz = poz.toString()
+                let block = document.getElementById(newPoz)
+                block.classList.add('move')
+            }
+        })
+    } else if (turn == 'black') {
+        document.querySelectorAll('.blackPiece').forEach(item => {
+            if (item.classList.contains('toggled')) {
+                let poz = parseInt(item.id);
+                poz -= 10;
+                let newPoz = poz.toString()
+                let block = document.getElementById(newPoz)
+                block.classList.add('move')
+            }
+        })
+    }
 };
 
 const removeMove = () => {
@@ -212,3 +247,18 @@ const removeMove = () => {
         item.classList.remove('move');
     })
 }
+
+const allowMove = () => {
+    let newElem = document.querySelector('.move')
+    let oldElem = document.querySelector('.toggled').innerHTML
+
+    newElem.addEventListener('click', function() {
+        newElem.innerHTML = oldElem;
+        document.querySelector('.toggled').innerHTML = '';
+        document.querySelector('.toggled').classList.remove('toggled');
+        newElem.classList.remove('move');
+        turnChange();
+        wCheck();
+        bCheck();
+    })
+};

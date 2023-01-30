@@ -45,75 +45,114 @@ class chessPiece {
 class whitePawn extends chessPiece {
     constructor(name, position) {
         super(name, '♙', 'pawn', position)
+    }
+    getMoves() {
+        const position = this.position;
+        const move = eval(position + '10');
+        return move;
     }       
 }
 
 class blackPawn extends chessPiece {
     constructor(name, position) {
         super(name, '♟', 'pawn', position)
-    }       
+    }
+    getMoves() {
+        const position = this.position;
+        const move = eval(position - '10');
+        return move;
+    }         
 }
 
-// if (id == 'pawn') {blah blah}
 
  class whiteRook extends chessPiece {
     constructor(name, position) {
         super(name, '♖', 'rook', position)
     }
+    getMoves() {
+        const position = this.position;
+    }  
  }
 
  class blackRook extends chessPiece {
     constructor(name, position) {
         super(name, '♜', 'rook', position)
     }
+    getMoves() {
+        const position = this.position;
+    }  
  }
 
  class whiteKnight extends chessPiece {
     constructor(name, position) {
         super(name, '♘', 'knight', position)
     }
+    getMoves() {
+        const position = this.position;
+    }  
  }
 
  class blackKnight extends chessPiece {
     constructor(name, position) {
         super(name, '♞', 'knight', position)
     }
+    getMoves() {
+        const position = this.position;
+    }  
  }
 
 class whiteBishop extends chessPiece {
     constructor(name, position) {
         super(name, '♗', 'bishop', position)
     }
+    getMoves() {
+        const position = this.position;
+    }  
 }
 
 class blackBishop extends chessPiece {
     constructor(name, position) {
         super(name, '♝', 'bishop', position)
     }
+    getMoves() {
+        const position = this.position;
+    }  
 }
 
 class whiteQueen extends chessPiece {
     constructor(name, position) {
         super(name, '♕', 'queen', position)
     }
+    getMoves() {
+        const position = this.position;
+    }  
 }
 
 class blackQueen extends chessPiece {
     constructor(name, position) {
         super(name, '♛', 'queen', position)
     }
+    getMoves() {
+        const position = this.position;
+    }  
 }
 
 class whiteKing extends chessPiece {
     constructor(name, position) {
         super(name, '♔', 'king', position)
     }
+    getMoves() {
+        const position = this.position;
+    }  
 }
 
 class blackKing extends chessPiece {
     constructor(name, position) {
         super(name, '♚', 'kingp', position)
     }
+    getMoves() {
+        const position = this.position;
+    }  
 }
 
 const pieces = [
@@ -156,6 +195,14 @@ const pieces = [
     new blackKing('blackKing', chessBoard[4])
 ]
 
+const whitePieces = [
+    '♔', '♕', '♗', '♘', '♖', '♙'
+]
+
+const blackPieces = [
+    '♚', '♛', '♝', '♞', '♜', '♟'
+]
+
 for (i = 0; i < 32; i++) {
     pieces[i].populateBoard(pieces[i])
 }
@@ -176,4 +223,230 @@ const spaceCheck = () => {
     }
 };
 
+const whiteCheck = () => {
+    document.querySelectorAll('.occupied').forEach(item => {
+        for (i = 0; i < 6; i++) {
+            if (item.innerHTML == whitePieces[i]) {
+                item.classList.add('whitePiece')
+                item.classList.remove('occupied')
+            }
+        }
+    })
+};
+
+const blackCheck = () => {
+    document.querySelectorAll('.occupied').forEach(item => {
+        for (i = 0; i < 6; i++) {
+            if (item.innerHTML == blackPieces[i]) {
+                item.classList.add('blackPiece')
+                item.classList.remove('occupied')
+            }
+        }
+    })
+};
+
 spaceCheck();
+whiteCheck();
+blackCheck();
+
+const toggle = () => {
+    if (turn == 'white') {
+        document.querySelectorAll('.whitePiece').forEach(item => {
+            item.addEventListener('click', event => {
+                unToggle()
+                removeMove()
+                item.classList.add('toggled')
+                toggleMove()
+                allowMove()
+                item.removeEventListener('click', event)
+            })
+        })
+    } else if (turn == 'black') {
+        document.querySelectorAll('.blackPiece').forEach(item => {
+            item.addEventListener('click', event => {
+                unToggle()
+                removeMove()
+                item.classList.add('toggled')
+                toggleMove()
+                allowMove()
+                item.removeEventListener('click', event)
+            })
+        })
+    }
+};
+
+const unToggle = () => {
+    document.querySelectorAll('.toggled').forEach(item => {
+        item.classList.remove('toggled');
+    })
+};
+
+const removeMove = () => {
+    document.querySelectorAll('.move').forEach(item => {
+        item.classList.remove('move');
+    })
+}
+
+setInterval(toggle, 1000);
+
+const toggleMove = () => {
+    document.querySelectorAll('.toggled').forEach(item => {
+        if (item.innerHTML == whitePieces[5]) {
+            let poz = parseInt(item.id);
+            poz += 10;
+            let newPoz = poz.toString()
+            let block = document.getElementById(newPoz)
+            block.classList.add('move')
+        }
+
+        if (item.innerHTML == blackPieces[5]) {
+            let poz = parseInt(item.id);
+            poz -= 10;
+            let newPoz = poz.toString()
+            let block = document.getElementById(newPoz)
+            block.classList.add('move')
+        }
+
+        if (item.innerHTML == whitePieces[2]) {
+            let poz1 = parseInt(item.id);
+            poz1 += 9;
+            let poz2 = parseInt(item.id);
+            poz2 += 11
+            let newPoz1 = poz1.toString()
+            let newPoz2 = poz2.toString()
+            let block1 = document.getElementById(newPoz1)
+            let block2 = document.getElementById(newPoz2)
+            block1.classList.add('move')
+            block2.classList.add('move')
+        }
+
+        if (item.innerHTML == blackPieces[2]) {
+            let poz1 = parseInt(item.id);
+            poz1 -= 9;
+            let poz2 = parseInt(item.id);
+            poz2 -= 11
+            let newPoz1 = poz1.toString()
+            let newPoz2 = poz2.toString()
+            let block1 = document.getElementById(newPoz1)
+            let block2 = document.getElementById(newPoz2)
+            block1.classList.add('move')
+            block2.classList.add('move')
+        }
+
+        if (item.innerHTML == whitePieces[0]) {
+            let poz1 = parseInt(item.id);
+            poz1 += 10;
+            let newPoz1 = poz1.toString()
+            let block1 = document.getElementById(newPoz1)
+            block1.classList.add('move')
+
+            let poz2 = parseInt(item.id);
+            poz2 -= 10;
+            let newPoz2 = poz2.toString()
+            let block2 = document.getElementById(newPoz2)
+            block2.classList.add('move')
+
+            let poz4 = parseInt(item.id);
+            poz4 += 5;
+            let newPoz4 = poz4.toString()
+            let block4 = document.getElementById(newPoz4)
+            block4.classList.add('move')
+
+            let poz3 = parseInt(item.id);
+            poz3 -= 5;
+            let newPoz3 = poz3.toString()
+            let block3 = document.getElementById(newPoz3)
+            block3.classList.add('move')
+
+            let poz5 = parseInt(item.id);
+            poz5 += 9;
+            let newPoz5 = poz5.toString()
+            let block5 = document.getElementById(newPoz5)
+            block5.classList.add('move')
+
+            let poz6 = parseInt(item.id);
+            poz6 -= 9;
+            let newPoz6 = poz6.toString()
+            let block6 = document.getElementById(newPoz6)
+            block6.classList.add('move')
+
+            let poz7 = parseInt(item.id);
+            poz7 += 11;
+            let newPoz7 = poz7.toString()
+            let block7 = document.getElementById(newPoz7)
+            block7.classList.add('move')
+
+            let poz8 = parseInt(item.id);
+            poz8 -= 11;
+            let newPoz8 = poz8.toString()
+            let block8 = document.getElementById(newPoz8)
+            block8.classList.add('move')
+        }
+
+        if (item.innerHTML == blackPieces[0]) {
+            let poz1 = parseInt(item.id);
+            poz1 += 10;
+            let newPoz1 = poz1.toString()
+            let block1 = document.getElementById(newPoz1)
+            block1.classList.add('move')
+
+            let poz2 = parseInt(item.id);
+            poz2 -= 10;
+            let newPoz2 = poz2.toString()
+            let block2 = document.getElementById(newPoz2)
+            block2.classList.add('move')
+
+            let poz4 = parseInt(item.id);
+            poz4 += 5;
+            let newPoz4 = poz4.toString()
+            let block4 = document.getElementById(newPoz4)
+            block4.classList.add('move')
+
+            let poz3 = parseInt(item.id);
+            poz3 -= 5;
+            let newPoz3 = poz3.toString()
+            let block3 = document.getElementById(newPoz3)
+            block3.classList.add('move')
+
+            let poz5 = parseInt(item.id);
+            poz5 += 9;
+            let newPoz5 = poz5.toString()
+            let block5 = document.getElementById(newPoz5)
+            block5.classList.add('move')
+
+            let poz6 = parseInt(item.id);
+            poz6 -= 9;
+            let newPoz6 = poz6.toString()
+            let block6 = document.getElementById(newPoz6)
+            block6.classList.add('move')
+
+            let poz7 = parseInt(item.id);
+            poz7 += 11;
+            let newPoz7 = poz7.toString()
+            let block7 = document.getElementById(newPoz7)
+            block7.classList.add('move')
+
+            let poz8 = parseInt(item.id);
+            poz8 -= 11;
+            let newPoz8 = poz8.toString()
+            let block8 = document.getElementById(newPoz8)
+            block8.classList.add('move')
+        }
+    })
+}
+
+const allowMove = () => {
+    let newElem = document.querySelector('.move')
+    let oldElem = document.querySelector('.toggled').innerHTML
+
+    newElem.addEventListener('click', function() {
+        newElem.innerHTML = oldElem;
+        document.querySelector('.toggled').innerHTML = '';
+        document.querySelector('.toggled').classList.remove('toggled');
+        newElem.classList.remove('move');
+        turnChange();
+        spaceCheck();
+        whiteCheck();
+        blackCheck();
+    })
+};

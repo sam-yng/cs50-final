@@ -76,7 +76,8 @@ const allowMove = () => {
         document.querySelector('.toggled').classList.remove('toggled');
         newElem.classList.remove('move');
         turnChange();
-        wCheck();
-        bCheck();
+        spaceCheck();
+        whiteCheck();
+        blackCheck();
     })
 };

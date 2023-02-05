@@ -3,7 +3,6 @@ class ChessPiece {
         this.name = name
         this.position = position
         this.color = color
-        this.id = document.getElementsByClassName(this.name)
     }
 }
 
@@ -143,7 +142,7 @@ class Game {
         this.boxes = document.querySelectorAll('.box');
         this.pieces = pieces;
         this.turn = 'white';
-        this.populateBoard();
+        this.test();
     }
 
     changeTurn() {
@@ -155,13 +154,22 @@ class Game {
         }  
     }
 
+    
     populateBoard() {
-        this.pieces.forEach(piece => {
+        this.pieces.forEach(piece => { 
             document.getElementById(piece.position).innerHTML = piece.getPiece()
             document.getElementById(piece.position).classList.add(piece.name)
         })
     }
 
+    test() {
+        this.pieces.forEach(piece => {
+            let node = document.createElement("div")
+            document.getElementById(piece.position).appendChild(node)
+            node.classList.add(piece.position)
+            document.getElementById(piece.position).innerHTML = piece.getPiece()
+        })
+    }
 
 }  
 

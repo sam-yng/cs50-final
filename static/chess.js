@@ -154,7 +154,9 @@ class Game {
         }  
     }
 
-    
+    /*
+    // below populates board with piece text, might have to use images
+
     populateBoard() {
         this.pieces.forEach(piece => { 
             document.getElementById(piece.position).innerHTML = piece.getPiece()
@@ -162,16 +164,19 @@ class Game {
         })
     }
 
-    test() {
+    // adding a div for each piece for toggling purposes (didn't quite work)
+    // board needs to be populated by pieces, not piece text
+    
+    addDiv() {
         this.pieces.forEach(piece => {
             let node = document.createElement("div")
             document.getElementById(piece.position).appendChild(node)
-            node.classList.add(piece.position)
-            document.getElementById(piece.position).innerHTML = piece.getPiece()
+            node.setAttribute("id", piece.position)
+            document.getElementById(piece.position).innerText = piece.getPiece()
         })
-    }
-
-}  
+    }  
+    */
+}
 
 const pieces = [
     new Pawn('whitePawn1', '21', 'white'),

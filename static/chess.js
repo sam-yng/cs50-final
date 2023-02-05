@@ -1,10 +1,10 @@
 class ChessPiece {
     constructor(name, position, color) {
-        this.name = name,
+        this.name = name
         this.position = position
         this.color = color
+        this.id = document.getElementsByClassName(this.name)
     }
-    
 }
 
 class Pawn extends ChessPiece {
@@ -15,16 +15,22 @@ class Pawn extends ChessPiece {
         return (this.color === 'black' ? '♟' : '♙')
     }
     getMoves() {
+        const position = parseInt(this.position)
+        const moves = []
+
         if (Game.firstMove === true) {
-            return (this.color === 'white' ? 
-            (parseInt(this.position.toString()) + 10).toString() &&
-            (parseInt(this.position.toString()) + 20).toString() : 
-            (parseInt(this.position.toString()) - 10).toString() &&
-            (parseInt(this.position.toString()) - 20).toString())
+            this.color === 'white' ? 
+            moves.push(position + 10, position + 20) : 
+            moves.push(position - 10, position - 20)
+
+            return moves
+
         } else {
-            return (this.color === 'white' ? 
-            (parseInt(this.position.toString()) + 10).toString() : 
-            (parseInt(this.position.toString()) - 10).toString())
+            this.color === 'white' ? 
+            moves.push(position + 10) : 
+            moves.push(position - 10)
+
+            return moves
         }
     }
 }
@@ -37,7 +43,15 @@ class Pawn extends ChessPiece {
         return (this.color === 'black' ? '♜' : '♖')
     }
     getMoves() {
+        const position = parseInt(this.position)
+        const moves = []
         
+        for (let i = position + 10; i <= 80; i--) moves.push(i)
+        for (let i = position + 1; i <= 8; i--) moves.push(i)
+        for (let i = position - 10; i <= 80; i--) moves.push(i)
+        for (let i = position - 1; i <= 8; i--) moves.push(i)
+
+        return moves
     }
  }
 
@@ -49,7 +63,13 @@ class Pawn extends ChessPiece {
         return (this.color === 'black' ? '♞' : '♘')
     }
     getMoves() {
-        
+        const position = parseInt(this.position)
+        const moves = []
+
+        moves.push(position + 21, position - 21, position + 19, position - 19,
+                position + 12, position - 12, position + 8, position - 8)
+
+        return moves
     }
  }
 
@@ -61,7 +81,15 @@ class Bishop extends ChessPiece {
         return (this.color === 'black' ? '♝' : '♗')
     }
     getMoves() {
+        const position = parseInt(this.position)
+        const moves = []
         
+        for (let i = position + 11; i <= 80; i--) moves.push(i)
+        for (let i = position + 9; i <= 8; i--) moves.push(i)
+        for (let i = position - 11; i <= 80; i--) moves.push(i)
+        for (let i = position - 9; i <= 8; i--) moves.push(i)
+
+        return moves
     }
 }
 
@@ -73,7 +101,19 @@ class Queen extends ChessPiece {
         return (this.color === 'black' ? '♛' : '♕')
     }
     getMoves() {
+        const position = parseint(this.position)
+        const moves = []
         
+        for (let i = position + 10; i <= 80; i--) moves.push(i)
+        for (let i = position + 1; i <= 8; i--) moves.push(i)
+        for (let i = position - 10; i <= 80; i--) moves.push(i)
+        for (let i = position - 1; i <= 8; i--) moves.push(i)
+        for (let i = position + 11; i <= 80; i--) moves.push(i)
+        for (let i = position + 9; i <= 8; i--) moves.push(i)
+        for (let i = position - 11; i <= 80; i--) moves.push(i)
+        for (let i = position - 9; i <= 8; i--) moves.push(i)
+
+        return moves
     }
 }
 
@@ -86,81 +126,44 @@ class King extends ChessPiece {
         return (this.color === 'black' ? '♚' : '♔')
     }
     getMoves() {
-        
+        const position = parseInt(this.position)
+        const moves = []
+
+        moves.push(position + 10, position - 10, position + 1, position - 1,
+            position + 11, position - 11, position + 9, position - 9)
+
+        return moves
     }
 }
 
 class Game {
-    constructor(board) {
-        this.board = board;
+    constructor(pieces) {
+        this.board = document.getElementsByClassName('board');
         this.firstMove = true;
         this.boxes = document.querySelectorAll('.box');
         this.pieces = pieces;
         this.turn = 'white';
-        this.placePieces();
-        this.identifyPieces();
-        this.occupied = document.querySelectorAll('.occupied');
-        this.allowToggle()
-        this.toggled = document.querySelector('.toggled')
+        this.populateBoard();
     }
 
     changeTurn() {
-        if (this.turn == 'white') {
-            turn == 'black'
-        } else if (this.turn == 'black') {
-            turn == 'white'
+        if (this.turn === 'white') {
+            turn === 'black'
+        } else if (this.turn === 'black') {
+            turn === 'white'
             this.firstMove === false
         }  
     }
 
-    placePieces() {
-        this.pieces.forEach(item => {
-            document.getElementById(item.position).innerHTML = item.getPiece();
-        });
-    }
-
-    identifyPieces() {
-        this.boxes.forEach(square => {
-            if (square.innerHTML) {
-                square.classList.add('occupied');
-            } else {
-                square.classList.remove('occupied');
-            }
-        });
-    };
-
-    allowToggle() {
-        this.pieces.forEach(square => {
-            square.addEventListener('click', event => {
-                this.unToggle()
-                square.classList.add('toggled')
-                this.showMoves()
-            })
+    populateBoard() {
+        this.pieces.forEach(piece => {
+            document.getElementById(piece.position).innerHTML = piece.getPiece()
+            document.getElementById(piece.position).classList.add(piece.name)
         })
     }
 
-    unToggle() {
-        document.querySelectorAll('.toggled').forEach(item => {
-            item.classList.remove('toggled');
-        })
-    }
 
-    showMoves() {
-        document.getElementById(this.pieces.getMoves()).classList.add('move')
-    }
-}
-
-
-const board = [
-    '81', '82', '83', '84', '85', '86', '87', '88', 
-    '71', '72', '73', '74', '75', '76', '77', '78',
-    '61', '62', '63', '64', '65', '66', '67', '68',
-    '51', '52', '53', '54', '55', '56', '57', '58',
-    '41', '42', '43', '44', '45', '46', '47', '48',
-    '31', '32', '33', '34', '35', '36', '37', '38',
-    '21', '22', '23', '24', '25', '26', '27', '28',
-    '11', '12', '13', '14', '15', '16', '17', '18'
-]
+}  
 
 const pieces = [
     new Pawn('whitePawn1', '21', 'white'),
@@ -207,4 +210,4 @@ const pieces = [
 ]
 
 
-const play = new Game(board)
+const play = new Game(pieces)

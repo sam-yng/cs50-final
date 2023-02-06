@@ -50,6 +50,10 @@ html {
     padding: 2em;
 }
 
+img {
+    height: .7em;
+}
+
 .board td {
     border: 1px solid;
     width: 3em;
@@ -109,4 +113,8 @@ td:hover {
     margin-bottom: 7vh;
     margin-top: 6vh;
     font-size: 20px;
+}
+
+.box {
+    font-size: 0px;
 }

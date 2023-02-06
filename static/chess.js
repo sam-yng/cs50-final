@@ -1,226 +1,214 @@
-class ChessPiece {
-    constructor(name, position, color) {
-        this.name = name
-        this.position = position
-        this.color = color
+const board = [
+    ['♜', '♞', '♝', '♛', '♚', '♝', '♞', '♜'],
+    ['♟', '♟', '♟', '♟', '♟', '♟', '♟', '♟'],
+    ['','','','','','','',''],
+    ['','','','','','','',''],
+    ['','','','','','','',''],
+    ['','','','','','','',''],
+    ['♙', '♙', '♙', '♙', '♙', '♙', '♙', '♙'],
+    ['♖', '♘', '♗', '♕', '♔', '♗', '♘', '♖']
+]
+
+let firstMove = true
+let turn = 'white'
+
+const changeTurn = () => {
+    if (turn == 'white') {
+        turn == 'black'
+    } else if (turn == 'black') {
+        turn == 'white'
+        firstMove == false
+    }  
+}
+
+const whitePieces = [
+    '♔', '♕', '♗', '♘', '♖', '♙'
+]
+
+const blackPieces = [
+    '♚', '♛', '♝', '♞', '♜', '♟'
+]
+
+let squares = []
+
+for (let i = 0; i <= 7; i++) {
+        for (let j = 0; j <= 7; j++) {
+            squares.push(board[i][j])
     }
 }
 
-class Pawn extends ChessPiece {
-    constructor(name, position, color) {
-        super(name, position, color)
-    }
-    getPiece() {
-        return (this.color === 'black' ? '♟' : '♙')
-    }
-    getMoves() {
-        const position = parseInt(this.position)
-        const moves = []
+let tableCells = document.querySelectorAll('td')
 
-        if (Game.firstMove === true) {
-            this.color === 'white' ? 
-            moves.push(position + 10, position + 20) : 
-            moves.push(position - 10, position - 20)
-
-            return moves
-
-        } else {
-            this.color === 'white' ? 
-            moves.push(position + 10) : 
-            moves.push(position - 10)
-
-            return moves
+const populateBoard = () => {
+    for (i = 0; i <= 63; i++) {
+        tableCells[i].innerHTML = squares[i]
+        
+        if (tableCells[i].innerHTML) {
+            tableCells[i].classList.add('occupied')
         }
     }
 }
 
- class Rook extends ChessPiece {
-    constructor(name, position, color) {
-        super(name, position, color)
-    }
-     getPiece() {
-        return (this.color === 'black' ? '♜' : '♖')
-    }
-    getMoves() {
-        const position = parseInt(this.position)
-        const moves = []
-        
-        for (let i = position + 10; i <= 80; i--) moves.push(i)
-        for (let i = position + 1; i <= 8; i--) moves.push(i)
-        for (let i = position - 10; i <= 80; i--) moves.push(i)
-        for (let i = position - 1; i <= 8; i--) moves.push(i)
+populateBoard()
 
-        return moves
-    }
- }
+let selectedPiece = document.getElementsByClassName('toggled')
 
- class Knight extends ChessPiece {
-    constructor(name, position, color) {
-        super(name, position, color)
-    }
-     getPiece() {
-        return (this.color === 'black' ? '♞' : '♘')
-    }
-    getMoves() {
-        const position = parseInt(this.position)
-        const moves = []
-
-        moves.push(position + 21, position - 21, position + 19, position - 19,
-                position + 12, position - 12, position + 8, position - 8)
-
-        return moves
-    }
- }
-
-class Bishop extends ChessPiece {
-    constructor(name, position, color) {
-        super(name, position, color)
-    }
-     getPiece() {
-        return (this.color === 'black' ? '♝' : '♗')
-    }
-    getMoves() {
-        const position = parseInt(this.position)
-        const moves = []
-        
-        for (let i = position + 11; i <= 80; i--) moves.push(i)
-        for (let i = position + 9; i <= 8; i--) moves.push(i)
-        for (let i = position - 11; i <= 80; i--) moves.push(i)
-        for (let i = position - 9; i <= 8; i--) moves.push(i)
-
-        return moves
-    }
+const allowToggle = () => {
+    tableCells.forEach(cell => {
+        if (cell.innerHTML) {
+            cell.addEventListener('click', function() {
+                limitToggle()
+                cell.classList.add('toggled')
+                let id = (selectedPiece[0].id)
+                getMoves(id)
+            })
+        }
+    })
 }
 
-class Queen extends ChessPiece {
-    constructor(name, position, color) {
-        super(name, position, color)
-    }
-     getPiece() {
-        return (this.color === 'black' ? '♛' : '♕')
-    }
-    getMoves() {
-        const position = parseint(this.position)
+const limitToggle = () => {
+    document.querySelectorAll('.toggled').forEach(item => {
+        item.classList.remove('toggled');
+        allowToggle()
+    })
+}
+
+allowToggle()
+
+const getMoves = (id) => {
+
+    if (document.getElementById(id).innerHTML === whitePieces[5]) {
+        const moves = []
+
+        if (firstMove === true) {
+            let newId = parseInt(id) + 10
+            moves.push(newId.toString())
+            let newId2 = parseInt(id) + 20
+            moves.push(newId2.toString())
+
+        } else {
+            let newId = parseInt(id) + 10
+            moves.push(newId.toString())
+        }
+
+        removeMove()
+        moves.forEach(move => {
+            if (document.getElementById(move).innerHTML) {
+                moves.pop()
+                return
+            }
+            document.getElementById(move).classList.add('move')
+        })
+        move()
+        changeTurn()
+
+
+
+    } else if (document.getElementById(id).innerHTML === blackPieces[5]) {
+        const moves = []
+
+        if (firstMove === true) {
+            let newId = parseInt(id) - 10
+            let newId2 = parseInt(id) - 20
+            moves.push(newId.toString(), newId2.toString())
+
+        } else {
+            let newId = parseInt(id) - 10
+            moves.push(newId.toString())
+        }
+
+        console.log(moves)
+
+        removeMove()
+        moves.forEach(move => {
+            if (document.getElementById(move).innerHTML) {
+                moves.pop()
+                return
+            }
+            document.getElementById(move).classList.add('move')
+        })
+        move()
+        changeTurn()
+
+
+    } else if (document.getElementById(id).innerHTML === blackPieces[4] || document.getElementById(id).innerHTML === whitePieces[4]) {
         const moves = []
         
-        for (let i = position + 10; i <= 80; i--) moves.push(i)
-        for (let i = position + 1; i <= 8; i--) moves.push(i)
-        for (let i = position - 10; i <= 80; i--) moves.push(i)
-        for (let i = position - 1; i <= 8; i--) moves.push(i)
-        for (let i = position + 11; i <= 80; i--) moves.push(i)
-        for (let i = position + 9; i <= 8; i--) moves.push(i)
-        for (let i = position - 11; i <= 80; i--) moves.push(i)
-        for (let i = position - 9; i <= 8; i--) moves.push(i)
 
-        return moves
-    }
-}
+        moves.push((parseInt(id) - 10).toString())
+        moves.push((parseInt(id) - 20).toString())
+        moves.push((parseInt(id) - 30).toString())
+        moves.push((parseInt(id) - 40).toString())
+        moves.push((parseInt(id) - 50).toString())
+        moves.push((parseInt(id) - 60).toString())
+        moves.push((parseInt(id) - 70).toString())
 
+        moves.push((parseInt(id) + 10).toString())
+        moves.push((parseInt(id) + 20).toString())
+        moves.push((parseInt(id) + 30).toString())
+        moves.push((parseInt(id) + 40).toString())
+        moves.push((parseInt(id) + 50).toString())
+        moves.push((parseInt(id) + 60).toString())
+        moves.push((parseInt(id) + 70).toString())
 
-class King extends ChessPiece {
-    constructor(name, position, color) {
-        super(name, position, color)
-    }
-     getPiece() {
-        return (this.color === 'black' ? '♚' : '♔')
-    }
-    getMoves() {
-        const position = parseInt(this.position)
-        const moves = []
+        moves.push((parseInt(id) - 1).toString())
+        moves.push((parseInt(id) - 2).toString())
+        moves.push((parseInt(id) - 3).toString())
+        moves.push((parseInt(id) - 4).toString())
+        moves.push((parseInt(id) - 5).toString())
+        moves.push((parseInt(id) - 6).toString())
+        moves.push((parseInt(id) - 7).toString())
 
-        moves.push(position + 10, position - 10, position + 1, position - 1,
-            position + 11, position - 11, position + 9, position - 9)
+        moves.push((parseInt(id) + 1).toString())
+        moves.push((parseInt(id) + 2).toString())
+        moves.push((parseInt(id) + 3).toString())
+        moves.push((parseInt(id) + 4).toString())
+        moves.push((parseInt(id) + 5).toString())
+        moves.push((parseInt(id) + 6).toString())
+        moves.push((parseInt(id) + 7).toString())
 
-        return moves
-    }
-}
+        function clean(move) {
+            return move >= 11 && move <= 88
+        }
 
-class Game {
-    constructor(pieces) {
-        this.board = document.getElementsByClassName('board');
-        this.firstMove = true;
-        this.boxes = document.querySelectorAll('.box');
-        this.pieces = pieces;
-        this.turn = 'white';
-        this.test();
-    }
+        cleanMoves = moves.filter(clean)
+        console.log(cleanMoves)
 
-    changeTurn() {
-        if (this.turn === 'white') {
-            turn === 'black'
-        } else if (this.turn === 'black') {
-            turn === 'white'
-            this.firstMove === false
-        }  
-    }
-
-    /*
-    // below populates board with piece text, might have to use images
-
-    populateBoard() {
-        this.pieces.forEach(piece => { 
-            document.getElementById(piece.position).innerHTML = piece.getPiece()
-            document.getElementById(piece.position).classList.add(piece.name)
+        removeMove()
+        cleanMoves.forEach(move => {
+            
+            if (document.getElementById(move).innerHTML) {
+                newMoves.pop()
+                console.log(move)
+                return
+            }
+            
+            document.getElementById(move).classList.add('move')
+            
         })
     }
 
-    // adding a div for each piece for toggling purposes (didn't quite work)
-    // board needs to be populated by pieces, not piece text
-    
-    addDiv() {
-        this.pieces.forEach(piece => {
-            let node = document.createElement("div")
-            document.getElementById(piece.position).appendChild(node)
-            node.setAttribute("id", piece.position)
-            document.getElementById(piece.position).innerText = piece.getPiece()
-        })
-    }  
-    */
 }
 
-const pieces = [
-    new Pawn('whitePawn1', '21', 'white'),
-    new Pawn('whitePawn2', '22', 'white'),
-    new Pawn('whitePawn3', '23', 'white'),
-    new Pawn('whitePawn4', '24', 'white'),
-    new Pawn('whitePawn5', '25', 'white'),
-    new Pawn('whitePawn6', '26', 'white'),
-    new Pawn('whitePawn7', '27', 'white'),
-    new Pawn('whitePawn8', '28', 'white'),
-
-    new Pawn('blackPawn1', '71', 'black'),
-    new Pawn('blackPawn2', '72', 'black'),
-    new Pawn('blackPawn3', '73', 'black'),
-    new Pawn('blackPawn4', '74', 'black'),
-    new Pawn('blackPawn5', '75', 'black'),
-    new Pawn('blackPawn6', '76', 'black'),
-    new Pawn('blackPawn7', '77', 'black'),
-    new Pawn('blackPawn8', '78', 'black'),
-
-    new Rook('whiteRook1', '11', 'white'),
-    new Rook('whiteRook2', '18', 'white'),
-
-    new Rook('blackRook1', '81', 'black'),
-    new Rook('blackRook1', '88', 'black'),
-
-    new Bishop('whiteBishop1', '13', 'white'),
-    new Bishop('whiteBishop2', '16', 'white'),
-
-    new Bishop('blackBishop1', '83', 'black'),
-    new Bishop('blackBishop2', '86', 'black'),
-
-    new Knight('whiteKnight1', '12', 'white'),
-    new Knight('whiteKnight2', '17', 'white'),
-
-    new Knight('blackKnight1', '82', 'black'),
-    new Knight('blackKnight2', '87', 'black'),
-
-    new Queen('whiteQueen', '14', 'white'),
-    new Queen('blackQueen', 84, 'black'),
-
-    new King('whiteKing', '15', 'white'),
-    new King('blackKing', '85', 'black')
-]
 
 
-const play = new Game(pieces)
+const removeMove = () => {
+    document.querySelectorAll('.move').forEach(item => {
+        item.classList.remove('move')
+    })
+}
+
+const move = () => {
+    document.querySelectorAll('.move').forEach(item => {
+        item.addEventListener('click', event => {
+            console.log('hello')
+            let oldSpace = document.querySelector('.toggled')
+            let newSpace = event.target
+
+            newSpace.innerHTML = oldSpace.innerHTML
+            oldSpace.innerHTML = ''
+            removeMove()
+            limitToggle()
+        })
+    })
+}

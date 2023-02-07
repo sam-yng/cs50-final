@@ -64,18 +64,20 @@ const pawnMove = (row, column, move = 1) => {
 }
 
 const rookMove = (row, column, direction, move) => {
+    // direction = left, right, up, down
+
     if (turn === 'white' && board[row][column] !== whitePieces[4]) {
         console.log("invalid piece")
     } else if (turn === 'black' && board[row][column] !== blackPieces[4]) {
         console.log("invalid piece")
    
 
-    } if (direction === 'left') {
+    } else if (direction === 'left') {
         if (board[row][column - 1].length === 1) {
             console.log("invalid move")
         } else {
-            board[column - move].splice(row, 1, board[row][column])
-            board[column].splice(row, 1, '')
+            board[row].splice(column - move, 1, board[row][column])
+            board[row].splice(column, 1, '')
             console.table(board)
             turnChange()
         }
@@ -90,7 +92,7 @@ const rookMove = (row, column, direction, move) => {
             turnChange()
         }
     
-    } else if (direction = 'up') {
+    } else if (direction === 'up') {
         if (board[row - 1][column].length === 1) {
             console.log("invalid move")
         } else {
@@ -104,14 +106,116 @@ const rookMove = (row, column, direction, move) => {
         if (board[row][column + 1].length === 1) {
             console.log("invalid move")
         } else {
-            board[column + move].splice(row, 1, board[row][column])
-            board[column].splice(row, 1, '')
+            board[row].splice(move, 1, board[row][column])
+            board[row].splice(column, 1, '')
             console.table(board)
             turnChange()
         }
     }
 }
 
-const knightMove = () => {
-    
+const knightMove = (row, column, x, y) => {
+    // x = left, right, up, down
+    // y = left, right, up, down
+
+    //  ---------------------
+    // |   ex    (up)   xy   |
+    // | xe               xy |
+    // |                     |
+    // |(left)    ♞   (right)|
+    // |                     |
+    // | xy               xy |
+    // |   xy   (down)  xy   |
+    // |                     |
+    //  ---------------------
+
+    // ex = (row, column, up, left)
+    // xe = (row, column, left, up)
+
+    if (turn === 'white' && board[row][column] !== whitePieces[3]) {
+        console.log("invalid piece")
+    } else if (turn === 'black' && board[row][column] !== blackPieces[3]) {
+        console.log("invalid piece")
+   
+
+    } else if (x === 'left' && y === 'up') {
+        if (board[row - 1][column - 2].length === 1) {
+            console.log("invalid move")
+        } else {
+            board[row - 1].splice(column - 2, 1, board[row][column])
+            board[row].splice(column, 1, '')
+            console.table(board)
+            turnChange()
+        }
+
+    } else if (x === 'left' && y === 'down') {
+        if (board[row + 1][column - 2].length === 1) {
+            console.log("invalid move")
+        } else {
+            board[row + 1].splice(column - 2, 1, board[row][column])
+            board[row].splice(column, 1, '')
+            console.table(board)
+            turnChange()
+        }
+
+    } else if (x === 'up' && y === 'left') {
+        if (board[row - 2][column - 1].length === 1) {
+            console.log("invalid move")
+        } else {
+            board[row - 2].splice(column - 1, 1, board[row][column])
+            board[row].splice(column, 1, '')
+            console.table(board)
+            turnChange()
+        }
+
+    } else if (x === 'up' && y === 'right') {
+        if (board[row - 2][column + 1].length === 1) {
+            console.log("invalid move")
+        } else {
+            board[row - 2].splice(column + 1, 1, board[row][column])
+            board[row].splice(column, 1, '')
+            console.table(board)
+            turnChange()
+        }
+
+    } else if (x === 'right' && y === 'up') {
+        if (board[row - 1][column - 2].length === 1) {
+            console.log("invalid move")
+        } else {
+            board[row - 1].splice(column + 2, 1, board[row][column])
+            board[row].splice(column, 1, '')
+            console.table(board)
+            turnChange()
+        }
+
+    } else if (x === 'right' && y ==='down') {
+        if (board[row + 1][column + 2].length === 1) {
+            console.log("invalid move")
+        } else {
+            board[row + 1].splice(column + 2, 1, board[row][column])
+            board[row].splice(column, 1, '')
+            console.table(board)
+            turnChange()
+        }
+
+    } else if (x === 'down' && y === 'left') {
+        if (board[row + 2][column - 1].length === 1) {
+            console.log("invalid move")
+        } else {
+            board[row + 2].splice(column - 1, 1, board[row][column])
+            board[row].splice(column, 1, '')
+            console.table(board)
+            turnChange()
+        }
+        
+    } else if (x === 'down' && y ==='right') {
+        if (board[row + 2][column + 1].length === 1) {
+            console.log("invalid move")
+        } else {
+            board[row + 2].splice(column + 1, 1, board[row][column])
+            board[row].splice(column, 1, '')
+            console.table(board)
+            turnChange()
+        }
+    }
 }

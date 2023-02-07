@@ -65,6 +65,7 @@ const pawnMove = (row, column, move = 1) => {
 
 const rookMove = (row, column, direction, move) => {
     // direction = left, right, up, down
+    // move = 1, 2, 3... 7
 
     if (turn === 'white' && board[row][column] !== whitePieces[4]) {
         console.log("invalid piece")
@@ -213,6 +214,39 @@ const knightMove = (row, column, x, y) => {
             console.log("invalid move")
         } else {
             board[row + 2].splice(column + 1, 1, board[row][column])
+            board[row].splice(column, 1, '')
+            console.table(board)
+            turnChange()
+        }
+    }
+}
+
+const bishopMove = (row, column, direction, move) => {
+    // direction = leftt, leftb, rightt, rightb
+    // move = 1, 2, 3... 7
+
+    //  ---------------------
+    // | (leftt)    (rightt) |
+    // |                     |
+    // |                     |
+    // |          ♝          |
+    // |                     |
+    // |                     |
+    // |                     |
+    // | (letfb)    (rightb) |
+    //  ---------------------
+
+    if (turn === 'white' && board[row][column] !== whitePieces[2]) {
+        console.log("invalid piece")
+    } else if (turn === 'black' && board[row][column] !== blackPieces[2]) {
+        console.log("invalid piece")
+    }
+
+    else if (direction === 'leftt') {
+        if (board[row - move][column - move].length === 1) {
+            console.log("invalid move")
+        } else {
+            board[row - move].splice(column - move, 1, board[row][column])
             board[row].splice(column, 1, '')
             console.table(board)
             turnChange()

@@ -1,4 +1,4 @@
-const board = [
+let board = [
     ['♜', '♞', '♝', '♛', '♚', '♝', '♞', '♜'],
     ['♟', '♟', '♟', '♟', '♟', '♟', '♟', '♟'],
     ['','','','','','','',''],
@@ -9,18 +9,6 @@ const board = [
     ['♖', '♘', '♗', '♕', '♔', '♗', '♘', '♖']
 ]
 
-let firstMove = true
-let turn = 'white'
-
-const changeTurn = () => {
-    if (turn == 'white') {
-        turn == 'black'
-    } else if (turn == 'black') {
-        turn == 'white'
-        firstMove == false
-    }  
-}
-
 const whitePieces = [
     '♔', '♕', '♗', '♘', '♖', '♙'
 ]
@@ -29,186 +17,101 @@ const blackPieces = [
     '♚', '♛', '♝', '♞', '♜', '♟'
 ]
 
-let squares = []
+let firstMove = true
+let turn = 'white'
 
-for (let i = 0; i <= 7; i++) {
-        for (let j = 0; j <= 7; j++) {
-            squares.push(board[i][j])
+const turnChange = () => {
+    if (turn === 'white') {
+        turn = 'black'
+    } else if (turn === 'black') {
+        turn = 'white'
+        firstMove = false
     }
+    console.log(turn)
 }
 
-let tableCells = document.querySelectorAll('td')
+console.table(board)
 
-const populateBoard = () => {
-    for (i = 0; i <= 63; i++) {
-        tableCells[i].innerHTML = squares[i]
+const pawnMove = (row, column, move = 1) => {
+    if (move > 2) {
+        console.log("invalid move")
+    } else if (firstMove === false && move > 1) {
+        console.log("invalid move")
+
         
-        if (tableCells[i].innerHTML) {
-            tableCells[i].classList.add('occupied')
+    } else if (turn === 'white') {
+        if (board[row][column] !== whitePieces[5]) {
+            console.log("invalid piece")
+        } 
+        else if (board[row - move][column].length === 0) { 
+            board[row - move].splice(column, 1, board[row][column])
+            board[row].splice(column, 1, '')
+            console.table(board)
+            turnChange()
         }
-    }
-}
-
-populateBoard()
-
-let selectedPiece = document.getElementsByClassName('toggled')
-
-const allowToggle = () => {
-    tableCells.forEach(cell => {
-        if (cell.innerHTML) {
-            cell.addEventListener('click', function() {
-                limitToggle()
-                cell.classList.add('toggled')
-                let id = (selectedPiece[0].id)
-                getMoves(id)
-            })
-        }
-    })
-}
-
-const limitToggle = () => {
-    document.querySelectorAll('.toggled').forEach(item => {
-        item.classList.remove('toggled');
-        allowToggle()
-    })
-}
-
-allowToggle()
-
-const getMoves = (id) => {
-
-    if (document.getElementById(id).innerHTML === whitePieces[5]) {
-        const moves = []
-
-        if (firstMove === true) {
-            let newId = parseInt(id) + 10
-            moves.push(newId.toString())
-            let newId2 = parseInt(id) + 20
-            moves.push(newId2.toString())
-
-        } else {
-            let newId = parseInt(id) + 10
-            moves.push(newId.toString())
-        }
-
-        removeMove()
-        moves.forEach(move => {
-            if (document.getElementById(move).innerHTML) {
-                moves.pop()
-                return
-            }
-            document.getElementById(move).classList.add('move')
-        })
-        move()
-        changeTurn()
-
-
-
-    } else if (document.getElementById(id).innerHTML === blackPieces[5]) {
-        const moves = []
-
-        if (firstMove === true) {
-            let newId = parseInt(id) - 10
-            let newId2 = parseInt(id) - 20
-            moves.push(newId.toString(), newId2.toString())
-
-        } else {
-            let newId = parseInt(id) - 10
-            moves.push(newId.toString())
-        }
-
-        console.log(moves)
-
-        removeMove()
-        moves.forEach(move => {
-            if (document.getElementById(move).innerHTML) {
-                moves.pop()
-                return
-            }
-            document.getElementById(move).classList.add('move')
-        })
-        move()
-        changeTurn()
-
-
-    } else if (document.getElementById(id).innerHTML === blackPieces[4] || document.getElementById(id).innerHTML === whitePieces[4]) {
-        const moves = []
         
+    } else if (turn === 'black') {
+        if (board[row][column] !== blackPieces[5]) {
+            console.log("invalid piece")
+        }
+        else if (board[row + move][column].length === 0) { 
+            board[row + move].splice(column, 1, board[row][column])
+            board[row].splice(column, 1, '')
+            console.table(board)
+            turnChange()
+        } 
+    } 
+}
 
-        moves.push((parseInt(id) - 10).toString())
-        moves.push((parseInt(id) - 20).toString())
-        moves.push((parseInt(id) - 30).toString())
-        moves.push((parseInt(id) - 40).toString())
-        moves.push((parseInt(id) - 50).toString())
-        moves.push((parseInt(id) - 60).toString())
-        moves.push((parseInt(id) - 70).toString())
+const rookMove = (row, column, direction, move) => {
+    if (turn === 'white' && board[row][column] !== whitePieces[4]) {
+        console.log("invalid piece")
+    } else if (turn === 'black' && board[row][column] !== blackPieces[4]) {
+        console.log("invalid piece")
+   
 
-        moves.push((parseInt(id) + 10).toString())
-        moves.push((parseInt(id) + 20).toString())
-        moves.push((parseInt(id) + 30).toString())
-        moves.push((parseInt(id) + 40).toString())
-        moves.push((parseInt(id) + 50).toString())
-        moves.push((parseInt(id) + 60).toString())
-        moves.push((parseInt(id) + 70).toString())
-
-        moves.push((parseInt(id) - 1).toString())
-        moves.push((parseInt(id) - 2).toString())
-        moves.push((parseInt(id) - 3).toString())
-        moves.push((parseInt(id) - 4).toString())
-        moves.push((parseInt(id) - 5).toString())
-        moves.push((parseInt(id) - 6).toString())
-        moves.push((parseInt(id) - 7).toString())
-
-        moves.push((parseInt(id) + 1).toString())
-        moves.push((parseInt(id) + 2).toString())
-        moves.push((parseInt(id) + 3).toString())
-        moves.push((parseInt(id) + 4).toString())
-        moves.push((parseInt(id) + 5).toString())
-        moves.push((parseInt(id) + 6).toString())
-        moves.push((parseInt(id) + 7).toString())
-
-        function clean(move) {
-            return move >= 11 && move <= 88
+    } if (direction === 'left') {
+        if (board[row][column - 1].length === 1) {
+            console.log("invalid move")
+        } else {
+            board[column - move].splice(row, 1, board[row][column])
+            board[column].splice(row, 1, '')
+            console.table(board)
+            turnChange()
         }
 
-        cleanMoves = moves.filter(clean)
-        console.log(cleanMoves)
-
-        removeMove()
-        cleanMoves.forEach(move => {
-            
-            if (document.getElementById(move).innerHTML) {
-                newMoves.pop()
-                console.log(move)
-                return
-            }
-            
-            document.getElementById(move).classList.add('move')
-            
-        })
+    } else if (direction === 'down') {
+        if (board[row + 1][column].length === 1) {
+            console.log("invalid move")
+        } else {
+            board[row + move].splice(column, 1, board[row][column])
+            board[row].splice(column, 1, '')
+            console.table(board)
+            turnChange()
+        }
+    
+    } else if (direction = 'up') {
+        if (board[row - 1][column].length === 1) {
+            console.log("invalid move")
+        } else {
+            board[row - move].splice(column, 1, board[row][column])
+            board[row].splice(column, 1, '')
+            console.table(board)
+            turnChange()
+        }
+    
+    } else if (direction === 'right') {
+        if (board[row][column + 1].length === 1) {
+            console.log("invalid move")
+        } else {
+            board[column + move].splice(row, 1, board[row][column])
+            board[column].splice(row, 1, '')
+            console.table(board)
+            turnChange()
+        }
     }
-
 }
 
-
-
-const removeMove = () => {
-    document.querySelectorAll('.move').forEach(item => {
-        item.classList.remove('move')
-    })
-}
-
-const move = () => {
-    document.querySelectorAll('.move').forEach(item => {
-        item.addEventListener('click', event => {
-            console.log('hello')
-            let oldSpace = document.querySelector('.toggled')
-            let newSpace = event.target
-
-            newSpace.innerHTML = oldSpace.innerHTML
-            oldSpace.innerHTML = ''
-            removeMove()
-            limitToggle()
-        })
-    })
+const knightMove = () => {
+    
 }

@@ -118,3 +118,7 @@ td:hover {
 .box {
     font-size: 0px;
 }
+
+.hello {
+    display: none;
+}

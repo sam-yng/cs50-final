@@ -28,6 +28,7 @@ const turnChange = () => {
         firstMove = false
     }
     console.log(turn)
+    console.table(board)
 }
 
 console.table(board)
@@ -46,7 +47,6 @@ const pawnMove = (row, column, move = 1) => {
         else if (board[row - move][column].length === 0) { 
             board[row - move].splice(column, 1, board[row][column])
             board[row].splice(column, 1, '')
-            console.table(board)
             turnChange()
         }
         
@@ -57,7 +57,6 @@ const pawnMove = (row, column, move = 1) => {
         else if (board[row + move][column].length === 0) { 
             board[row + move].splice(column, 1, board[row][column])
             board[row].splice(column, 1, '')
-            console.table(board)
             turnChange()
         } 
     } 
@@ -79,7 +78,6 @@ const rookMove = (row, column, direction, move) => {
         } else {
             board[row].splice(column - move, 1, board[row][column])
             board[row].splice(column, 1, '')
-            console.table(board)
             turnChange()
         }
 
@@ -89,7 +87,6 @@ const rookMove = (row, column, direction, move) => {
         } else {
             board[row + move].splice(column, 1, board[row][column])
             board[row].splice(column, 1, '')
-            console.table(board)
             turnChange()
         }
     
@@ -99,7 +96,6 @@ const rookMove = (row, column, direction, move) => {
         } else {
             board[row - move].splice(column, 1, board[row][column])
             board[row].splice(column, 1, '')
-            console.table(board)
             turnChange()
         }
     
@@ -109,7 +105,6 @@ const rookMove = (row, column, direction, move) => {
         } else {
             board[row].splice(move, 1, board[row][column])
             board[row].splice(column, 1, '')
-            console.table(board)
             turnChange()
         }
     }
@@ -127,7 +122,6 @@ const knightMove = (row, column, x, y) => {
     // |                     |
     // | xy               xy |
     // |   xy   (down)  xy   |
-    // |                     |
     //  ---------------------
 
     // ex = (row, column, up, left)
@@ -145,7 +139,6 @@ const knightMove = (row, column, x, y) => {
         } else {
             board[row - 1].splice(column - 2, 1, board[row][column])
             board[row].splice(column, 1, '')
-            console.table(board)
             turnChange()
         }
 
@@ -155,7 +148,6 @@ const knightMove = (row, column, x, y) => {
         } else {
             board[row + 1].splice(column - 2, 1, board[row][column])
             board[row].splice(column, 1, '')
-            console.table(board)
             turnChange()
         }
 
@@ -165,7 +157,6 @@ const knightMove = (row, column, x, y) => {
         } else {
             board[row - 2].splice(column - 1, 1, board[row][column])
             board[row].splice(column, 1, '')
-            console.table(board)
             turnChange()
         }
 
@@ -175,7 +166,6 @@ const knightMove = (row, column, x, y) => {
         } else {
             board[row - 2].splice(column + 1, 1, board[row][column])
             board[row].splice(column, 1, '')
-            console.table(board)
             turnChange()
         }
 
@@ -185,7 +175,6 @@ const knightMove = (row, column, x, y) => {
         } else {
             board[row - 1].splice(column + 2, 1, board[row][column])
             board[row].splice(column, 1, '')
-            console.table(board)
             turnChange()
         }
 
@@ -195,7 +184,6 @@ const knightMove = (row, column, x, y) => {
         } else {
             board[row + 1].splice(column + 2, 1, board[row][column])
             board[row].splice(column, 1, '')
-            console.table(board)
             turnChange()
         }
 
@@ -205,7 +193,6 @@ const knightMove = (row, column, x, y) => {
         } else {
             board[row + 2].splice(column - 1, 1, board[row][column])
             board[row].splice(column, 1, '')
-            console.table(board)
             turnChange()
         }
         
@@ -215,7 +202,6 @@ const knightMove = (row, column, x, y) => {
         } else {
             board[row + 2].splice(column + 1, 1, board[row][column])
             board[row].splice(column, 1, '')
-            console.table(board)
             turnChange()
         }
     }
@@ -230,7 +216,6 @@ const bishopMove = (row, column, direction, move) => {
     // |                     |
     // |                     |
     // |          ♝          |
-    // |                     |
     // |                     |
     // |                     |
     // | (letfb)    (rightb) |
@@ -248,8 +233,223 @@ const bishopMove = (row, column, direction, move) => {
         } else {
             board[row - move].splice(column - move, 1, board[row][column])
             board[row].splice(column, 1, '')
-            console.table(board)
+            turnChange()
+        }
+
+    } else if (direction === 'leftb') {
+        if (board[row + move][column - move].length === 1) {
+            console.log("invalid move") 
+        } else {
+            board[row + move].splice(column - move, 1, board[row][column])
+            board[row].splice(column, 1, '')
+            turnChange()
+        }
+
+    } else if (direction === 'rightt') {
+        if (board[row - move][column + move].length === 1) {
+            console.log("invalid move")
+        } else {
+            board[row - move].splice(column + move, 1, board[row][column])
+            board[row].splice(column, 1 , '')
+            turnChange()
+        }
+
+    } else if (direction === 'rightb') {
+        if (board[row + move][column + move].length === 1) {
+            console.log("invalid piece")
+        } else {
+            board[row + move].splice(column + move, 1, board[row][column])
+            board[row].splice(column, 1 , '')
             turnChange()
         }
     }
+}
+
+const queenMove = (row, column, direction, move) => {
+    // direction = top, down, left, right, topl, topr, downl, downr
+
+    //  ---------------------
+    // |        (top)        |
+    // |(topl)         (topr)|
+    // |                     |
+    // |(left)    ♛   (right)|
+    // |                     |
+    // |(donwl)       (downr)|
+    // |        (down)       |
+    //  ---------------------
+
+    if (turn === 'white' && board[row][column] !== whitePieces[1]) {
+        console.log("invalid piece")
+    } else if (turn === 'black' && board[row][column] !== blackPieces[1]) {
+        console.log("invalid piece")
+    }
+
+    else if (direction === 'top') {
+        if (board[row][column - move].length === 1) {
+            console.log("invalid move")
+        } else {
+            board[row].splice(column - move, 1, board[row][column])
+            board[row].splice(column, 1, '')
+            turnChange()
+        }
+
+    } else if (direction === 'down') {
+        if (board[row][column + move].length === 1) {
+            console.log("invalid move")
+        } else {
+            board[row].splice(column + move, 1, board[row][column])
+            board[row].splice(column, 1, '')
+            turnChange()
+        }
+
+    } else if (direction === 'right') {
+        if (board[row + move][column].length === 1) {
+            console.log("invalid move")
+        } else {
+            board[row + move].splice(column, 1, board[row][column])
+            board[row].splice(column, 1, '')
+            turnChange()
+        }
+
+    } else if (direction === 'left') {
+        if (board[row - move][column].length === 1) {
+            console.log("invalid move")
+        } else {
+            board[row - move].splice(column, 1, board[row][column])
+            board[row].splice(column, 1, '')
+            turnChange()
+        }
+
+    }  else if (direction === 'topl') {
+        if (board[row - move][column - move].length === 1) {
+            console.log("invalid move")
+        } else {
+            board[row - move].splice(column - move, 1, board[row][column])
+            board[row].splice(column, 1, '')
+            turnChange()
+        }
+
+    } else if (direction === 'topr') {
+        if (board[row - move][column + move].length === 1) {
+            console.log("invalid move")
+        } else {
+            board[row - move].splice(column + move, 1, board[row][column])
+            board[row].splice(column, 1 , '')
+            turnChange()
+        }
+
+    } else if (direction === 'downl') {
+        if (board[row + move][column - move].length === 1) {
+            console.log("invalid move") 
+        } else {
+            board[row + move].splice(column - move, 1, board[row][column])
+            board[row].splice(column, 1, '')
+            turnChange()
+        }
+
+    } else if (direction === 'downr') {
+        if (board[row + move][column + move].length === 1) {
+            console.log("invalid piece")
+        } else {
+            board[row + move].splice(column + move, 1, board[row][column])
+            board[row].splice(column, 1 , '')
+            turnChange()
+        }
+    }
+}
+
+const kingMove = (row, column, direction, move = 1) => {
+    // direction = top, down, left, right, topl, topr, downl, downr
+
+    //  ---------------------
+    // |        (top)        |
+    // |(topl)         (topr)|
+    // |                     |
+    // |(left)    ♚   (right)|
+    // |                     |
+    // |(donwl)       (downr)|
+    // |        (down)       |
+    //  ---------------------
+
+    if (turn === 'white' && board[row][column] !== whitePieces[0]) {
+        console.log("invalid piece")
+    } else if (turn === 'black' && board[row][column] !== blackPieces[0]) {
+        console.log("invalid piece")
+    } else if (move > 1) {
+        console.log("invalid move")
+    }
+
+    else if (direction === 'top') {
+        if (board[row][column - move].length === 1) {
+            console.log("invalid move")
+        } else {
+            board[row].splice(column - move, 1, board[row][column])
+            board[row].splice(column, 1, '')
+            turnChange()
+        }
+
+    } else if (direction === 'down') {
+        if (board[row][column + move].length === 1) {
+            console.log("invalid move")
+        } else {
+            board[row].splice(column + move, 1, board[row][column])
+            board[row].splice(column, 1, '')
+            turnChange()
+        }
+
+    } else if (direction === 'right') {
+        if (board[row + move][column].length === 1) {
+            console.log("invalid move")
+        } else {
+            board[row + move].splice(column, 1, board[row][column])
+            board[row].splice(column, 1, '')
+            turnChange()
+        }
+
+    } else if (direction === 'left') {
+        if (board[row - move][column].length === 1) {
+            console.log("invalid move")
+        } else {
+            board[row - move].splice(column, 1, board[row][column])
+            board[row].splice(column, 1, '')
+            turnChange()
+        }
+
+    }  else if (direction === 'topl') {
+        if (board[row - move][column - move].length === 1) {
+            console.log("invalid move")
+        } else {
+            board[row - move].splice(column - move, 1, board[row][column])
+            board[row].splice(column, 1, '')
+            turnChange()
+        }
+
+    } else if (direction === 'topr') {
+        if (board[row - move][column + move].length === 1) {
+            console.log("invalid move")
+        } else {
+            board[row - move].splice(column + move, 1, board[row][column])
+            board[row].splice(column, 1 , '')
+            turnChange()
+        }
+
+    } else if (direction === 'downl') {
+        if (board[row + move][column - move].length === 1) {
+            console.log("invalid move") 
+        } else {
+            board[row + move].splice(column - move, 1, board[row][column])
+            board[row].splice(column, 1, '')
+            turnChange()
+        }
+
+    } else if (direction === 'downr') {
+        if (board[row + move][column + move].length === 1) {
+            console.log("invalid piece")
+        } else {
+            board[row + move].splice(column + move, 1, board[row][column])
+            board[row].splice(column, 1 , '')
+            turnChange()
+        }
+    }
+
 }

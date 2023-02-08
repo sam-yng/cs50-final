@@ -9,6 +9,17 @@ let board = [
     ['♖', '♘', '♗', '♕', '♔', '♗', '♘', '♖']
 ]
 
+const populateBoard = () => {
+        for (let i = 0; i < board.length; i++) {
+            for (let j = 0; j < board[i].length; j++) {
+                let cell = document.getElementById("c" + i + j);
+                 cell.innerHTML = board[i][j];
+        }
+    }
+}
+
+populateBoard()
+
 const whitePieces = [
     '♔', '♕', '♗', '♘', '♖', '♙'
 ]
@@ -20,6 +31,10 @@ const blackPieces = [
 let firstMove = true
 let turn = 'white'
 
+let whiteKings = 0
+let blackKings = 0
+let winner = ''
+
 const turnChange = () => {
     if (turn === 'white') {
         turn = 'black'
@@ -29,7 +44,13 @@ const turnChange = () => {
     }
     console.log(turn)
     console.table(board)
+    populateBoard()
+    hasKingW()
+    hasKingB()
+    checkWinner()
 }
+
+document.getElementById('show-turn').innerHTML = turn
 
 console.table(board)
 
@@ -824,4 +845,43 @@ const kingMove = (row, column, direction, move = 1) => {
         turnChange()
     }
 
+}
+
+const hasKingW = () => {
+    for (i = 0; i <= 7; i++) {
+        for (j = 0; j <= 7; j++) {
+            if (board[i][j] === whitePieces[0]) {
+                whiteKings = 1
+                console.log(whiteKings)
+            }
+        }
+    }
+    
+    if (whiteKings === 0) {
+        winner = 'black'
+    }
+}
+
+const hasKingB = () => {
+    for (i = 0; i <= 7; i++) {
+        for (j = 0; j <= 7; j++) {
+            if (board[i][j] === blackPieces[0]) {
+                blackKings = 1
+                console.log(blackKings)
+            } 
+        }
+    }
+    if (blackKings === 0) {
+        winner = 'white'
+    }
+}
+
+const checkWinner = () => {
+    if (winner === 'white') {
+        document.getElementById('show-winner').innerHTML = "white wins!"
+    } else if (winner === 'black') {
+        document.getElementById('show-winner').innerHTML = "black wins!"
+    } else if (winner === '') {
+        return
+    }
 }

@@ -107,12 +107,26 @@ td:hover {
 }
 
 #show-turn {
+    font-size: 20px;
+}
+
+#turn {
+    font-size: 20px;
+    margin-right: 6px;
+}
+
+#show-winner {
+    font-size: 20px;
+    color: orange;
+    display: flex;
+    justify-content: center;
+}
+
+.flex {
     display: flex;
     flex-direction: row;
     justify-content: center;
-    margin-bottom: 7vh;
-    margin-top: 6vh;
-    font-size: 20px;
+    margin-top: 4em;
 }
 
 .box {

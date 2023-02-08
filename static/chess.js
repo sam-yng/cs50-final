@@ -73,40 +73,105 @@ const rookMove = (row, column, direction, move) => {
    
 
     } else if (direction === 'left') {
-        if (board[row][column - 1].length === 1) {
-            console.log("invalid move")
-        } else {
-            board[row].splice(column - move, 1, board[row][column])
-            board[row].splice(column, 1, '')
-            turnChange()
+        
+        // checks for other pieces of the same color
+        
+        for (i = 0; i < 5; i++) { 
+            for (j = move; j > 0; j--) {
+                if (turn === 'white' && board[row][column - j] === whitePieces[i]) {
+                    console.log("invalid move")
+                    return
+                } else if (turn === 'black' && board[row][column - j] === blackPieces[i]) {
+                    console.log("invalid move")
+                    return
+                } 
+            }
+        } 
+
+        for (j = move - 1; j > 0; j--) {
+            if (board[row][column - j].length === 1) {
+                console.log("invalid move")
+                return
+            }
         }
+        board[row].splice(column - move, 1, board[row][column])
+        board[row].splice(column, 1, '')
+        turnChange()
+        
 
     } else if (direction === 'down') {
-        if (board[row + 1][column].length === 1) {
-            console.log("invalid move")
-        } else {
-            board[row + move].splice(column, 1, board[row][column])
-            board[row].splice(column, 1, '')
-            turnChange()
+
+        for (i = 0; i < 5; i++) { 
+            for (j = move; j > 0; j--) {
+                if (turn === 'white' && board[row + j][column] === whitePieces[i]) {
+                    console.log("invalid move")
+                    return
+                } else if (turn === 'black' && board[row + j][column] === blackPieces[i]) {
+                    console.log("invalid move")
+                    return
+                } 
+            }
+        } 
+
+        for (j = move - 1; j > 0; j--) {
+            if (board[row + j][column].length === 1) {
+                console.log("invalid move")
+                return
+            }
         }
+        board[row + move].splice(column, 1, board[row][column])
+        board[row].splice(column, 1, '')
+        turnChange()
+        
     
     } else if (direction === 'up') {
-        if (board[row - 1][column].length === 1) {
-            console.log("invalid move")
-        } else {
-            board[row - move].splice(column, 1, board[row][column])
-            board[row].splice(column, 1, '')
-            turnChange()
+
+        for (i = 0; i < 5; i++) { 
+            for (j = move; j > 0; j--) {
+                if (turn === 'white' && board[row - j][column] === whitePieces[i]) {
+                    console.log("invalid move")
+                    return
+                } else if (turn === 'black' && board[row - j][column] === blackPieces[i]) {
+                    console.log("invalid move")
+                    return
+                } 
+            }
+        } 
+
+        for (j = move - 1; j > 0; j--) {
+            if (board[row - j][column].length === 1) {
+                console.log("invalid move")
+                return
+            }
         }
+        board[row - move].splice(column, 1, board[row][column])
+        board[row].splice(column, 1, '')
+        turnChange()
+        
     
     } else if (direction === 'right') {
-        if (board[row][column + 1].length === 1) {
-            console.log("invalid move")
-        } else {
-            board[row].splice(move, 1, board[row][column])
-            board[row].splice(column, 1, '')
-            turnChange()
+
+       for (i = 0; i < 5; i++) { 
+            for (j = move; j > 0; j--) {
+                if (turn === 'white' && board[row][column + j] === whitePieces[i]) {
+                    console.log("invalid move")
+                    return
+                } else if (turn === 'black' && board[row][column + j] === blackPieces[i]) {
+                    console.log("invalid move")
+                    return
+                } 
+            }
+        } 
+
+        for (j = move - 1; j > 0; j--) {
+            if (board[row][column + j].length === 1) {
+                console.log("invalid move")
+                return
+            }
         }
+        board[row].splice(move, 1, board[row][column])
+        board[row].splice(column, 1, '')
+        turnChange()
     }
 }
 
@@ -134,76 +199,131 @@ const knightMove = (row, column, x, y) => {
    
 
     } else if (x === 'left' && y === 'up') {
-        if (board[row - 1][column - 2].length === 1) {
-            console.log("invalid move")
-        } else {
-            board[row - 1].splice(column - 2, 1, board[row][column])
-            board[row].splice(column, 1, '')
-            turnChange()
-        }
+
+        for (i = 0; i < 5; i++) {   
+            if (turn === 'white' && board[row - 1][column - 2] === whitePieces[i]) {
+                console.log("invalid move")
+                return
+            } else if (turn === 'black' && board[row - 1][column - 2] === blackPieces[i]) {
+                console.log("invalid move")
+                return
+            } 
+        } 
+        board[row - 1].splice(column - 2, 1, board[row][column])
+        board[row].splice(column, 1, '')
+        turnChange()
+        
 
     } else if (x === 'left' && y === 'down') {
-        if (board[row + 1][column - 2].length === 1) {
-            console.log("invalid move")
-        } else {
-            board[row + 1].splice(column - 2, 1, board[row][column])
-            board[row].splice(column, 1, '')
-            turnChange()
-        }
+
+        for (i = 0; i < 5; i++) {   
+            if (turn === 'white' && board[row + 1][column - 2] === whitePieces[i]) {
+                console.log("invalid move")
+                return
+            } else if (turn === 'black' && board[row + 1][column - 2] === blackPieces[i]) {
+                console.log("invalid move")
+                return
+            } 
+        } 
+        board[row + 1].splice(column - 2, 1, board[row][column])
+        board[row].splice(column, 1, '')
+        turnChange()
+        
 
     } else if (x === 'up' && y === 'left') {
-        if (board[row - 2][column - 1].length === 1) {
-            console.log("invalid move")
-        } else {
-            board[row - 2].splice(column - 1, 1, board[row][column])
-            board[row].splice(column, 1, '')
-            turnChange()
-        }
+
+        for (i = 0; i < 5; i++) {   
+            if (turn === 'white' && board[row - 2][column - 1] === whitePieces[i]) {
+                console.log("invalid move")
+                return
+            } else if (turn === 'black' && board[row - 2][column - 1] === blackPieces[i]) {
+                console.log("invalid move")
+                return
+            } 
+        } 
+        board[row - 2].splice(column - 1, 1, board[row][column])
+        board[row].splice(column, 1, '')
+        turnChange()
+
 
     } else if (x === 'up' && y === 'right') {
-        if (board[row - 2][column + 1].length === 1) {
-            console.log("invalid move")
-        } else {
-            board[row - 2].splice(column + 1, 1, board[row][column])
-            board[row].splice(column, 1, '')
-            turnChange()
-        }
+
+        for (i = 0; i < 5; i++) {   
+            if (turn === 'white' && board[row - 2][column + 1] === whitePieces[i]) {
+                console.log("invalid move")
+                return
+            } else if (turn === 'black' && board[row - 2][column + 1] === blackPieces[i]) {
+                console.log("invalid move")
+                return
+            } 
+        } 
+        board[row - 2].splice(column + 1, 1, board[row][column])
+        board[row].splice(column, 1, '')
+        turnChange()
+
 
     } else if (x === 'right' && y === 'up') {
-        if (board[row - 1][column - 2].length === 1) {
-            console.log("invalid move")
-        } else {
-            board[row - 1].splice(column + 2, 1, board[row][column])
-            board[row].splice(column, 1, '')
-            turnChange()
-        }
+
+        for (i = 0; i < 5; i++) {   
+            if (turn === 'white' && board[row - 1][column + 2] === whitePieces[i]) {
+                console.log("invalid move")
+                return
+            } else if (turn === 'black' && board[row - 1][column + 2] === blackPieces[i]) {
+                console.log("invalid move")
+                return
+            } 
+        } 
+        board[row - 1].splice(column + 2, 1, board[row][column])
+        board[row].splice(column, 1, '')
+        turnChange()
+        
 
     } else if (x === 'right' && y ==='down') {
-        if (board[row + 1][column + 2].length === 1) {
-            console.log("invalid move")
-        } else {
-            board[row + 1].splice(column + 2, 1, board[row][column])
-            board[row].splice(column, 1, '')
-            turnChange()
-        }
+
+        for (i = 0; i < 5; i++) {   
+            if (turn === 'white' && board[row + 1][column + 2] === whitePieces[i]) {
+                console.log("invalid move")
+                return
+            } else if (turn === 'black' && board[row + 1][column + 2] === blackPieces[i]) {
+                console.log("invalid move")
+                return
+            } 
+        } 
+        board[row + 1].splice(column + 2, 1, board[row][column])
+        board[row].splice(column, 1, '')
+        turnChange()
+        
 
     } else if (x === 'down' && y === 'left') {
-        if (board[row + 2][column - 1].length === 1) {
-            console.log("invalid move")
-        } else {
-            board[row + 2].splice(column - 1, 1, board[row][column])
-            board[row].splice(column, 1, '')
-            turnChange()
-        }
+
+       for (i = 0; i < 5; i++) {   
+            if (turn === 'white' && board[row + 2][column - 1] === whitePieces[i]) {
+                console.log("invalid move")
+                return
+            } else if (turn === 'black' && board[row + 2][column - 1] === blackPieces[i]) {
+                console.log("invalid move")
+                return
+            } 
+        } 
+        board[row + 2].splice(column - 1, 1, board[row][column])
+        board[row].splice(column, 1, '')
+        turnChange()
+        
         
     } else if (x === 'down' && y ==='right') {
-        if (board[row + 2][column + 1].length === 1) {
-            console.log("invalid move")
-        } else {
-            board[row + 2].splice(column + 1, 1, board[row][column])
-            board[row].splice(column, 1, '')
-            turnChange()
-        }
+
+        for (i = 0; i < 5; i++) {   
+            if (turn === 'white' && board[row + 2][column + 1] === whitePieces[i]) {
+                console.log("invalid move")
+                return
+            } else if (turn === 'black' && board[row + 2][column + 1] === blackPieces[i]) {
+                console.log("invalid move")
+                return
+            } 
+        } 
+        board[row + 2].splice(column + 1, 1, board[row][column])
+        board[row].splice(column, 1, '')
+        turnChange()
     }
 }
 
@@ -228,40 +348,103 @@ const bishopMove = (row, column, direction, move) => {
     }
 
     else if (direction === 'leftt') {
-        if (board[row - move][column - move].length === 1) {
-            console.log("invalid move")
-        } else {
-            board[row - move].splice(column - move, 1, board[row][column])
-            board[row].splice(column, 1, '')
-            turnChange()
+
+        // checks for same color pieces in each spot
+        for (i = 0; i < 5; i++) { 
+            for (j = move; j > 0; j--) {
+                if (turn === 'white' && board[row - j][column - j] === whitePieces[i]) {
+                    console.log("invalid move")
+                    return
+                } else if (turn === 'black' && board[row - j][column - j] === blackPieces[i]) {
+                    console.log("invalid move")
+                    return
+                } 
+            }
+        } 
+
+        for (j = move - 1; j > 0; j--) {
+            if (board[row - j][column - j].length === 1) {
+                console.log("invalid move")
+                return
+            }
         }
+        board[row - move].splice(column - move, 1, board[row][column])
+        board[row].splice(column, 1, '')
+        turnChange()
+        
 
     } else if (direction === 'leftb') {
-        if (board[row + move][column - move].length === 1) {
-            console.log("invalid move") 
-        } else {
-            board[row + move].splice(column - move, 1, board[row][column])
-            board[row].splice(column, 1, '')
-            turnChange()
+
+        for (i = 0; i < 5; i++) { 
+            for (j = move; j > 0; j--) {
+                if (turn === 'white' && board[row + j][column - j] === whitePieces[i]) {
+                    console.log("invalid move")
+                    return
+                } else if (turn === 'black' && board[row + j][column - j] === blackPieces[i]) {
+                    console.log("invalid move")
+                    return
+                } 
+            }
+        } 
+
+        for (j = move - 1; j > 0; j--) {
+            if (board[row + j][column - j].length === 1) {
+                console.log("invalid move")
+                return
+            }
         }
+        board[row + move].splice(column - move, 1, board[row][column])
+        board[row].splice(column, 1, '')
+        turnChange()
+
 
     } else if (direction === 'rightt') {
-        if (board[row - move][column + move].length === 1) {
-            console.log("invalid move")
-        } else {
-            board[row - move].splice(column + move, 1, board[row][column])
-            board[row].splice(column, 1 , '')
-            turnChange()
+
+        for (i = 0; i < 5; i++) { 
+            for (j = move; j > 0; j--) {
+                if (turn === 'white' && board[row - j][column + j] === whitePieces[i]) {
+                    console.log("invalid move")
+                    return
+                } else if (turn === 'black' && board[row - j][column + j] === blackPieces[i]) {
+                    console.log("invalid move")
+                    return
+                } 
+            }
+        } 
+
+        for (j = move - 1; j > 0; j--) {
+            if (board[row - j][column + j].length === 1) {
+                console.log("invalid move")
+                return
+            }
         }
+        board[row - move].splice(column + move, 1, board[row][column])
+        board[row].splice(column, 1 , '')
+        turnChange()
 
     } else if (direction === 'rightb') {
-        if (board[row + move][column + move].length === 1) {
-            console.log("invalid piece")
-        } else {
-            board[row + move].splice(column + move, 1, board[row][column])
-            board[row].splice(column, 1 , '')
-            turnChange()
+
+        for (i = 0; i < 5; i++) { 
+            for (j = move; j > 0; j--) {
+                if (turn === 'white' && board[row + j][column + j] === whitePieces[i]) {
+                    console.log("invalid move")
+                    return
+                } else if (turn === 'black' && board[row + j][column + j] === blackPieces[i]) {
+                    console.log("invalid move")
+                    return
+                } 
+            }
+        } 
+
+        for (j = move - 1; j > 0; j--) {
+            if (board[row + j][column + j].length === 1) {
+                console.log("invalid move")
+                return
+            }
         }
+        board[row + move].splice(column + move, 1, board[row][column])
+        board[row].splice(column, 1 , '')
+        turnChange()
     }
 }
 
@@ -285,76 +468,203 @@ const queenMove = (row, column, direction, move) => {
     }
 
     else if (direction === 'top') {
-        if (board[row][column - move].length === 1) {
-            console.log("invalid move")
-        } else {
-            board[row].splice(column - move, 1, board[row][column])
-            board[row].splice(column, 1, '')
-            turnChange()
+        for (i = 0; i < 5; i++) { 
+            for (j = move; j > 0; j--) {
+                if (turn === 'white' && board[row][column - j] === whitePieces[i]) {
+                    console.log("invalid move")
+                    return
+                } else if (turn === 'black' && board[row][column - j] === blackPieces[i]) {
+                    console.log("invalid move")
+                    return
+                }
+            }
+        } 
+
+        for (j = move - 1; j > 0; j--) {
+            if (board[row][column - j].length === 1) {
+                console.log("invalid move")
+                return
+            }
         }
+        board[row].splice(column - move, 1, board[row][column])
+        board[row].splice(column, 1, '')
+        turnChange()
+
 
     } else if (direction === 'down') {
-        if (board[row][column + move].length === 1) {
-            console.log("invalid move")
-        } else {
-            board[row].splice(column + move, 1, board[row][column])
-            board[row].splice(column, 1, '')
-            turnChange()
+        
+        for (i = 0; i < 5; i++) { 
+            for (j = move; j > 0; j--) {
+                if (turn === 'white' && board[row][column + j] === whitePieces[i]) {
+                    console.log("invalid move")
+                    return
+                } else if (turn === 'black' && board[row][column + j] === blackPieces[i]) {
+                    console.log("invalid move")
+                    return
+                }
+            }
+        } 
+
+        for (j = move - 1; j > 0; j--) {
+            if (board[row][column + j].length === 1) {
+                console.log("invalid move")
+                return
+            }
         }
+        board[row].splice(column + move, 1, board[row][column])
+        board[row].splice(column, 1, '')
+        turnChange()
+
 
     } else if (direction === 'right') {
-        if (board[row + move][column].length === 1) {
-            console.log("invalid move")
-        } else {
-            board[row + move].splice(column, 1, board[row][column])
-            board[row].splice(column, 1, '')
-            turnChange()
+
+        for (i = 0; i < 5; i++) { 
+            for (j = move; j > 0; j--) {
+                if (turn === 'white' && board[row + j][column] === whitePieces[i]) {
+                    console.log("invalid move")
+                    return
+                } else if (turn === 'black' && board[row + j][column] === blackPieces[i]) {
+                    console.log("invalid move")
+                    return
+                }
+            }
+        } 
+
+        for (j = move - 1; j > 0; j--) {
+            if (board[row + j][column].length === 1) {
+                console.log("invalid move")
+                return
+            }
         }
+        board[row + move].splice(column, 1, board[row][column])
+        board[row].splice(column, 1, '')
+        turnChange()
+    
 
     } else if (direction === 'left') {
-        if (board[row - move][column].length === 1) {
-            console.log("invalid move")
-        } else {
-            board[row - move].splice(column, 1, board[row][column])
-            board[row].splice(column, 1, '')
-            turnChange()
+
+        for (i = 0; i < 5; i++) { 
+            for (j = move; j > 0; j--) {
+                if (turn === 'white' && board[row - j][column] === whitePieces[i]) {
+                    console.log("invalid move")
+                    return
+                } else if (turn === 'black' && board[row - j][column] === blackPieces[i]) {
+                    console.log("invalid move")
+                    return
+                }
+            }
+        } 
+
+        for (j = move - 1; j > 0; j--) {
+            if (board[row - j][column].length === 1) {
+                console.log("invalid move")
+                return
+            }
         }
+        board[row - move].splice(column, 1, board[row][column])
+        board[row].splice(column, 1, '')
+        turnChange()
+        
 
     }  else if (direction === 'topl') {
-        if (board[row - move][column - move].length === 1) {
-            console.log("invalid move")
-        } else {
-            board[row - move].splice(column - move, 1, board[row][column])
-            board[row].splice(column, 1, '')
-            turnChange()
+       
+        for (i = 0; i < 5; i++) { 
+            for (j = move; j > 0; j--) {
+                if (turn === 'white' && board[row - j][column - j] === whitePieces[i]) {
+                    console.log("invalid move")
+                    return
+                } else if (turn === 'black' && board[row - j][column - j] === blackPieces[i]) {
+                    console.log("invalid move")
+                    return
+                }
+            }
+        } 
+
+        for (j = move - 1; j > 0; j--) {
+            if (board[row - j][column - j].length === 1) {
+                console.log("invalid move")
+                return
+            }
         }
+        board[row - move].splice(column - move, 1, board[row][column])
+        board[row].splice(column, 1, '')
+        turnChange()
+        
 
     } else if (direction === 'topr') {
-        if (board[row - move][column + move].length === 1) {
-            console.log("invalid move")
-        } else {
-            board[row - move].splice(column + move, 1, board[row][column])
-            board[row].splice(column, 1 , '')
-            turnChange()
+        
+        for (i = 0; i < 5; i++) { 
+            for (j = move; j > 0; j--) {
+                if (turn === 'white' && board[row - j][column + j] === whitePieces[i]) {
+                    console.log("invalid move")
+                    return
+                } else if (turn === 'black' && board[row - j][column + j] === blackPieces[i]) {
+                    console.log("invalid move")
+                    return
+                }
+            }
+        } 
+
+        for (j = move - 1; j > 0; j--) {
+            if (board[row - j][column + j].length === 1) {
+                console.log("invalid move")
+                return
+            }
         }
+        board[row - move].splice(column + move, 1, board[row][column])
+        board[row].splice(column, 1 , '')
+        turnChange()
+        
 
     } else if (direction === 'downl') {
-        if (board[row + move][column - move].length === 1) {
-            console.log("invalid move") 
-        } else {
-            board[row + move].splice(column - move, 1, board[row][column])
-            board[row].splice(column, 1, '')
-            turnChange()
+
+       for (i = 0; i < 5; i++) { 
+            for (j = move; j > 0; j--) {
+                if (turn === 'white' && board[row + j][column - j] === whitePieces[i]) {
+                    console.log("invalid move")
+                    return
+                } else if (turn === 'black' && board[row + j][column - j] === blackPieces[i]) {
+                    console.log("invalid move")
+                    return
+                }
+            }
+        } 
+
+        for (j = move - 1; j > 0; j--) {
+            if (board[row + j][column - j].length === 1) {
+                console.log("invalid move")
+                return
+            }
         }
+        board[row + move].splice(column - move, 1, board[row][column])
+        board[row].splice(column, 1, '')
+        turnChange()
+        
 
     } else if (direction === 'downr') {
-        if (board[row + move][column + move].length === 1) {
-            console.log("invalid piece")
-        } else {
-            board[row + move].splice(column + move, 1, board[row][column])
-            board[row].splice(column, 1 , '')
-            turnChange()
+
+       for (i = 0; i < 5; i++) { 
+            for (j = move; j > 0; j--) {
+                if (turn === 'white' && board[row + j][column + j] === whitePieces[i]) {
+                    console.log("invalid move")
+                    return
+                } else if (turn === 'black' && board[row + j][column + j] === blackPieces[i]) {
+                    console.log("invalid move")
+                    return
+                }
+            }
+        } 
+
+        for (j = move - 1; j > 0; j--) {
+            if (board[row + j][column + j].length === 1) {
+                console.log("invalid move")
+                return
+            }
         }
+        board[row + move].splice(column + move, 1, board[row][column])
+        board[row].splice(column, 1 , '')
+        turnChange()
+        
     }
 }
 
@@ -380,76 +690,138 @@ const kingMove = (row, column, direction, move = 1) => {
     }
 
     else if (direction === 'top') {
-        if (board[row][column - move].length === 1) {
-            console.log("invalid move")
-        } else {
-            board[row].splice(column - move, 1, board[row][column])
-            board[row].splice(column, 1, '')
-            turnChange()
-        }
+        for (i = 0; i < 5; i++) { 
+            for (j = move; j > 0; j--) {
+                if (turn === 'white' && board[row][column - j] === whitePieces[i]) {
+                    console.log("invalid move")
+                    return
+                } else if (turn === 'black' && board[row][column - j] === blackPieces[i]) {
+                    console.log("invalid move")
+                    return
+                }
+            }
+        } 
+        board[row].splice(column - move, 1, board[row][column])
+        board[row].splice(column, 1, '')
+        turnChange()
 
     } else if (direction === 'down') {
-        if (board[row][column + move].length === 1) {
-            console.log("invalid move")
-        } else {
-            board[row].splice(column + move, 1, board[row][column])
-            board[row].splice(column, 1, '')
-            turnChange()
-        }
+        for (i = 0; i < 5; i++) { 
+            for (j = move; j > 0; j--) {
+                if (turn === 'white' && board[row][column + j] === whitePieces[i]) {
+                    console.log("invalid move")
+                    return
+                } else if (turn === 'black' && board[row][column + j] === blackPieces[i]) {
+                    console.log("invalid move")
+                    return
+                }
+            }
+        } 
+        board[row].splice(column + move, 1, board[row][column])
+        board[row].splice(column, 1, '')
+        turnChange()
 
     } else if (direction === 'right') {
-        if (board[row + move][column].length === 1) {
-            console.log("invalid move")
-        } else {
-            board[row + move].splice(column, 1, board[row][column])
-            board[row].splice(column, 1, '')
-            turnChange()
-        }
+        
+        for (i = 0; i < 5; i++) { 
+            for (j = move; j > 0; j--) {
+                if (turn === 'white' && board[row + j][column] === whitePieces[i]) {
+                    console.log("invalid move")
+                    return
+                } else if (turn === 'black' && board[row + j][column] === blackPieces[i]) {
+                    console.log("invalid move")
+                    return
+                }
+            }
+        } 
+        board[row + move].splice(column, 1, board[row][column])
+        board[row].splice(column, 1, '')
+        turnChange()
 
     } else if (direction === 'left') {
-        if (board[row - move][column].length === 1) {
-            console.log("invalid move")
-        } else {
-            board[row - move].splice(column, 1, board[row][column])
-            board[row].splice(column, 1, '')
-            turnChange()
-        }
+       
+        for (i = 0; i < 5; i++) { 
+            for (j = move; j > 0; j--) {
+                if (turn === 'white' && board[row - j][column] === whitePieces[i]) {
+                    console.log("invalid move")
+                    return
+                } else if (turn === 'black' && board[row - j][column] === blackPieces[i]) {
+                    console.log("invalid move")
+                    return
+                }
+            }
+        } 
+        board[row - move].splice(column, 1, board[row][column])
+        board[row].splice(column, 1, '')
+        turnChange()
 
     }  else if (direction === 'topl') {
-        if (board[row - move][column - move].length === 1) {
-            console.log("invalid move")
-        } else {
-            board[row - move].splice(column - move, 1, board[row][column])
-            board[row].splice(column, 1, '')
-            turnChange()
-        }
+       
+        for (i = 0; i < 5; i++) { 
+            for (j = move; j > 0; j--) {
+                if (turn === 'white' && board[row - j][column - j] === whitePieces[i]) {
+                    console.log("invalid move")
+                    return
+                } else if (turn === 'black' && board[row - j][column - j] === blackPieces[i]) {
+                    console.log("invalid move")
+                    return
+                }
+            }
+        } 
+        board[row - move].splice(column - move, 1, board[row][column])
+        board[row].splice(column, 1, '')
+        turnChange()
 
     } else if (direction === 'topr') {
-        if (board[row - move][column + move].length === 1) {
-            console.log("invalid move")
-        } else {
-            board[row - move].splice(column + move, 1, board[row][column])
-            board[row].splice(column, 1 , '')
-            turnChange()
-        }
+        
+        for (i = 0; i < 5; i++) { 
+            for (j = move; j > 0; j--) {
+                if (turn === 'white' && board[row - j][column + j] === whitePieces[i]) {
+                    console.log("invalid move")
+                    return
+                } else if (turn === 'black' && board[row - j][column + j] === blackPieces[i]) {
+                    console.log("invalid move")
+                    return
+                }
+            }
+        } 
+        board[row - move].splice(column + move, 1, board[row][column])
+        board[row].splice(column, 1 , '')
+        turnChange()
 
     } else if (direction === 'downl') {
-        if (board[row + move][column - move].length === 1) {
-            console.log("invalid move") 
-        } else {
-            board[row + move].splice(column - move, 1, board[row][column])
-            board[row].splice(column, 1, '')
-            turnChange()
-        }
+        
+        for (i = 0; i < 5; i++) { 
+            for (j = move; j > 0; j--) {
+                if (turn === 'white' && board[row + j][column - j] === whitePieces[i]) {
+                    console.log("invalid move")
+                    return
+                } else if (turn === 'black' && board[row + j][column - j] === blackPieces[i]) {
+                    console.log("invalid move")
+                    return
+                }
+            }
+        } 
+        board[row + move].splice(column - move, 1, board[row][column])
+        board[row].splice(column, 1, '')
+        turnChange()
 
     } else if (direction === 'downr') {
-        if (board[row + move][column + move].length === 1) {
-            console.log("invalid piece")
-        } else {
-            board[row + move].splice(column + move, 1, board[row][column])
-            board[row].splice(column, 1 , '')
-            turnChange()
-        }
+        
+        for (i = 0; i < 5; i++) { 
+            for (j = move; j > 0; j--) {
+                if (turn === 'white' && board[row + j][column + j] === whitePieces[i]) {
+                    console.log("invalid move")
+                    return
+                } else if (turn === 'black' && board[row + j][column + j] === blackPieces[i]) {
+                    console.log("invalid move")
+                    return
+                }
+            }
+        } 
+        board[row + move].splice(column + move, 1, board[row][column])
+        board[row].splice(column, 1 , '')
+        turnChange()
     }
 
 }
